@@ -1,0 +1,59 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+@font-face {
+ font-family: 'base-font';
+ src: url('/fonts/Lato-Regular.ttf') format('truetype');
+}
+
+body {
+  font-family: 'base-font', sans-serif;
+  overflow-x: hidden;
+  padding-bottom: 40px;
+}
+
+video {
+  outline: none;
+  border: none;
+}
+
+h1, h3 {
+  margin-top: 0px;
+  padding-right: 10px;
+}
+
+.full-width-video {
+  width: 100%;
+}
+
+.photos {
+  margin-top: -5px;
+  z-index: -2;
+}
+
+.photos img {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.imger {
+  width: 33%;
+  display: inline-block;
+}
+
+.banner-companyname {
+  color: black;
+  margin-top: -2em;
+  font-size: 66px;
+  color: white;
+  text-shadow: 1px 1px 4px black;
+}
+
+/* Portrait and Landscape */
+@media screen and (max-width: 500px) {
+   .imger {
+     width: 96%;
+     display: block;
+   }
+}
