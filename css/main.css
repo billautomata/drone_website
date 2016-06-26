@@ -31,7 +31,7 @@ body {
 }
 
 .photos {
-  width: 100%;
+  /*width: 100%;*/
 }
 
 .photos img {
@@ -64,7 +64,9 @@ body {
   text-shadow: 1px 1px 4px black;
 }
 
-.three-dee-demo-frame {}
+.three-dee-demo-frame {
+  margin-top: 20px;
+}
 
 .three-dee-demo-warning {
   display: none;
@@ -80,9 +82,9 @@ body {
      background-position: 0px 0px;
    }
    .three-dee-demo-warning {
-      display: block;
+    display: block;
    }
-   iframe {
+   .three-dee-demo-frame {
      display: none;
    }
 
