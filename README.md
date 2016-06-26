@@ -25,6 +25,10 @@
 # product ideas
 
 * prints
+  * regular photos
   * giant maps
-  * photos
 * 3d model > 3d print
+
+# common video commands
+
+ ffmpeg -i ~/Desktop/dry_creek_reel.mp4 -ss 00:00:19 -t 18 -b:v 15000k waterfall_15MBs.mp4
