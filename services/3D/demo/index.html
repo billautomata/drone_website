@@ -7,13 +7,13 @@
 		<style>
 			body {
 				font-family: Monospace;
-				background-color: #000;
-				color: #fff;
+				background-color: #fff;
+				color: #000000;
 				margin: 0px;
 				overflow: hidden;
 			}
 			#info {
-				color: #fff;
+				color: #000000;
 				position: absolute;
 				top: 10px;
 				width: 100%;
@@ -22,6 +22,10 @@
 				display:block;
 			}
 			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+			canvas {
+				opacity: 1.0;
+				background: white;
+			}
 		</style>
 	</head>
 
@@ -52,10 +56,10 @@
 			var windowHalfY = window.innerHeight / 2;
 
       var camera_positions = [
-        { x: -200, y: 0 },
+        { x: -200, y: -200 },
         { x: 100, y: -200 },
-        { x: -200, y: -100 },
-        { x: 500, y: -500 }
+        { x: 300, y: -100 },
+        { x: 0, y: -500 }
       ]
 
       var camera_counter = 0
@@ -78,12 +82,12 @@
 
 				scene = new THREE.Scene();
 
-				var ambient = new THREE.AmbientLight( 0x444444 );
+				var ambient = new THREE.AmbientLight( 0x999999 );
 				scene.add( ambient );
 
-				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				directionalLight.position.set( 0, 0, 1 ).normalize();
-				scene.add( directionalLight );
+				// var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+				// directionalLight.position.set( 0, 0, 1 ).normalize();
+				// scene.add( directionalLight );
 
 				// model
 
@@ -128,6 +132,7 @@
 				renderer = new THREE.WebGLRenderer();
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setClearColor( 0xffffff, 1 );
 				container.appendChild( renderer.domElement );
 
 				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
