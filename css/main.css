@@ -17,8 +17,9 @@ body {
   width: 100%;
 }
 
-#services {
-  margin-top: 70px;
+div#services {
+  /*margin-top: 70px;*/
+  padding-top: 20px;
 }
 
 .jumbotron {
