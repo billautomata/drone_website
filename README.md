@@ -1,7 +1,7 @@
 # todo
 
 * [ ] favicon
-* [ ] demo websites for each section
+## demo websites for each section
   * [ ] services
     * [ ] photos
       * [ ] index.html
@@ -9,17 +9,22 @@
         * [x] retouching
         * [x] high quality formats
         * [ ] youtube links
-    * [ ] 3D
-      * [ ] index.html
-    * [ ] mapping
-      * [ ] index.html
+    * [x] 3D
+      * [x] index.html
 
 
+## example sections
+  * [ ] photo video
+    * [ ] 10 edited photos
+    * [ ] 2 minutes of edited video
+    * [ ] raw photos + videos
 
-  * [ ] minutes of video
 
-* [x] interactive 3d website boilerplate
-* [ ] large image map
+## interactive 3d website
+  * [ ] labels and 3d text in the demo website
+
+* [x] large image map
+* [x] 3d website boilerplate
 * [ ] auto play video on iphone
 
 # product ideas
