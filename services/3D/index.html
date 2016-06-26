@@ -1,193 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<title>building demo</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-		<style>
-			body {
-				font-family: Monospace;
-				background-color: #000;
-				color: #fff;
-				margin: 0px;
-				overflow: hidden;
-			}
-			#info {
-				color: #fff;
-				position: absolute;
-				top: 10px;
-				width: 100%;
-				text-align: center;
-				z-index: 100;
-				display:block;
-			}
-			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
-		</style>
-	</head>
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>flying robot photos - image services</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-	<body>
-		<div id="info">
-      reconstruction tour demo
-		<!-- <a href="http://threejs.org" target="_blank">three.js</a> - OBJLoader + MTLLoader -->
-		</div>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/bootstrap-theme.css">
+        <link rel="stylesheet" href="/css/main.css">
 
-		<script src="/js/vendor/three.js"></script>
-
-		<script src="/js/vendor/DDSLoader.js"></script>
-		<script src="/js/vendor/MTLLoader.js"></script>
-		<script src="/js/vendor/OBJLoader.js"></script>
-
-		<script src="/js/vendor/Detector.js"></script>
-		<script src="/js/vendor/stats.min.js"></script>
-
-		<script>
-
-			var container, stats;
-
-			var camera, scene, renderer;
-
-			var mouseX = 0, mouseY = 0;
-
-			var windowHalfX = window.innerWidth / 2;
-			var windowHalfY = window.innerHeight / 2;
-
-      var camera_positions = [
-        { x: -200, y: 0 },
-        { x: 100, y: -200 },
-        { x: -200, y: -100 },
-        { x: 500, y: -500 }
-      ]
-
-      var camera_counter = 0
-      var camera_counter_limit = 200
-      var camera_position_index = 0
-
-			init();
-			animate();
-
-
-			function init() {
-
-				container = document.createElement( 'div' );
-				document.body.appendChild( container );
-
-				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
-				camera.position.z = 150;
-
-				// scene
-
-				scene = new THREE.Scene();
-
-				var ambient = new THREE.AmbientLight( 0x444444 );
-				scene.add( ambient );
-
-				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				directionalLight.position.set( 0, 0, 1 ).normalize();
-				scene.add( directionalLight );
-
-				// model
-
-				var onProgress = function ( xhr ) {
-					if ( xhr.lengthComputable ) {
-						var percentComplete = xhr.loaded / xhr.total * 100;
-						console.log( Math.round(percentComplete, 2) + '% downloaded' );
-					}
-				};
-
-				var onError = function ( xhr ) { };
-
-				THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
-
-				var mtlLoader = new THREE.MTLLoader();
-				mtlLoader.setPath( '/obj/building_detail/' );
-				mtlLoader.load( 'downtown_detail_reduced.mtl', function( materials ) {
-
-					materials.preload();
-
-					var objLoader = new THREE.OBJLoader();
-					objLoader.setMaterials( materials );
-					objLoader.setPath( '/obj/building_detail/' );
-					objLoader.load( 'downtown_detail_reduced.obj', function ( object ) {
-
-						// object.position.y = - 95;
-
-						var scale = 1.5
-						object.scale.x = scale
-						object.scale.y = scale
-						object.scale.z = scale
-
-						object.rotation.y = 3.0
-						scene.add( object );
-
-					}, onProgress, onError );
-
-				});
-
-				//
-
-				renderer = new THREE.WebGLRenderer();
-				renderer.setPixelRatio( window.devicePixelRatio );
-				renderer.setSize( window.innerWidth, window.innerHeight );
-				container.appendChild( renderer.domElement );
-
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-
-				//
-
-				window.addEventListener( 'resize', onWindowResize, false );
-
-			}
-
-			function onWindowResize() {
-
-				windowHalfX = window.innerWidth / 2;
-				windowHalfY = window.innerHeight / 2;
-
-				camera.aspect = window.innerWidth / window.innerHeight;
-				camera.updateProjectionMatrix();
-
-				renderer.setSize( window.innerWidth, window.innerHeight );
-
-			}
-
-			function onDocumentMouseMove( event ) {
-
-				// mouseX = ( event.clientX - windowHalfX ) / 2;
-				// mouseY = ( event.clientY - windowHalfY ) / 2;
-
-			}
-
-			//
-
-			function animate() {
-
-				requestAnimationFrame( animate );
-				render();
-
-			}
-
-			function render() {
-
-        camera_counter += 1
-        if(camera_counter > camera_counter_limit){
-          camera_counter = 0
-          camera_position_index += 1
-          if(camera_position_index >= camera_positions.length){
-            camera_position_index = 0
-          }
-          console.log(camera_position_index)
-        }
-
-				camera.position.x += ( camera_positions[camera_position_index].x - camera.position.x ) * .05;
-				camera.position.y += ( - camera_positions[camera_position_index].y - camera.position.y ) * .01;
-
-				camera.lookAt( scene.position );
-
-				renderer.render( scene, camera );
-
-			}
-
-		</script>
-
-	</body>
+        <script src="/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+    </head>
+    <body>
+    <!-- <video src='videos/dry_creek_reel.mp4' loop controls='false' autoplay autostart class='full-width-video'></video> -->
+    <!-- <div class='container photos'>
+      <img class='col-md-4 col-xs-4 img-responsive' src='/img/drone_0_resized.jpg'></img>
+      <img class='col-md-4 col-xs-4 img-responsive' src='/img/drone_1_resized.jpg'></img>
+      <img class='col-md-4 col-xs-4 img-responsive' src='/img/drone_2_resized.jpg'></img>
+    </div> -->
+    <div class='row mapping-header' style=''></div>
+    <div class='rpw text-center'>
+      <a href='https://docs.google.com/forms/d/1OsSoSQV_94paMhs2H2XFsuB8t6GBZwRD9kKx5rZR3d8/viewform' class='col-xs-12 button btn btn-success btn-lg'>get started</a>
+    </div>
+    <div class='container' id='services'>
+      <div class='col-md-12 text-center'>
+        <h1 style='margin-bottom: 25px;'>MAPPING AND 3D SERVICES</h1>
+        <div class='talk col-md-6 col-sm-12'>
+          <img class='img-responsive' src='/img/3d_services_engineers.jpg'></img>
+          Our software engineers can stitch together hundreds of images taken from all altitudes and angles and create a 3D model, or a map.
+        </div>
+        <div class='talk col-md-6 col-sm-12'>
+          <img class='img-responsive' src='/img/3d_services_artists.jpg'></img>
+          <div>Our designers and artists will take those assets and produce interactive websites and high quality video tours to achieve your promotional goals.</div>
+        </div>
+        <div class='talk col-md-12 col-sm-12' style='margin-top: 20px;'>
+          <iframe src='/services/demo/index.html' width='100%' height='400px'></iframe>
+        </div>
+      </div>
+      <!-- interactive websites -->
+      <!-- large format prints -->
+    </div>
+    <script src="/js/vendor/jquery-1.11.2.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+    <script src="/build/bundle.js"></script>
+    </body>
 </html>
