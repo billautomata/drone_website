@@ -18,17 +18,21 @@ video {
   border: none;
 }
 
-h1, h3 {
-  margin-top: 0px;
-  padding-right: 10px;
-}
-
 .full-width-video {
   width: 100%;
 }
 
 #services {
   margin-top: 70px;
+}
+
+.jumbotron {
+  padding-bottom: 10px;
+}
+
+.services-header-label {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .photos {
@@ -45,6 +49,18 @@ h1, h3 {
 .imger {
   width: 33%;
   display: inline-block;
+}
+
+.talk {
+  font-size: 24px;
+}
+
+.mapping-header {
+  height: 300px;
+  background: url(/img/mapping_header.jpg);
+  background-size: cover;
+  background-position: 0px -250px;
+  background-repeat: no-repeat;
 }
 
 .banner-companyname {
