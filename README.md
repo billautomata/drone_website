@@ -27,7 +27,11 @@
   * [ ] HQ download
   * [x] youtube example
 * [ ] 3d model, raw + cleaned up
-* [ ] map of area, large + small image
+  * [ ] raw
+  * [ ] cleaned up
+* [x] map of area
+  * [x] large image
+  * [x] small image
 
 ## social media meta-data
 
