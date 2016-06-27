@@ -21,26 +21,39 @@
 				z-index: 100;
 				display:block;
 			}
+			#radio-buttons {
+				color: #000000;
+				position: absolute;
+				top: 40px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
 			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
 			canvas {
 				opacity: 1.0;
 				background: white;
 			}
+			span {
+				font-size: 20px;
+				padding: 4px;
+			}
+			input {
+				width: 20px;
+				height: 20px;
+			}
 		</style>
 	</head>
 
 	<body>
-		<div id="info">
-      reconstruction tour demo
-		<!-- <a href="http://threejs.org" target="_blank">three.js</a> - OBJLoader + MTLLoader -->
-		</div>
+		<div id="info"></div>
+		<div id='radio-buttons'></div>
 
 		<script src="/js/vendor/three.js"></script>
-
 		<script src="/js/vendor/DDSLoader.js"></script>
 		<script src="/js/vendor/MTLLoader.js"></script>
 		<script src="/js/vendor/OBJLoader.js"></script>
-
 		<script src="/js/vendor/Detector.js"></script>
 		<script src="/js/vendor/stats.min.js"></script>
 
@@ -56,19 +69,47 @@
 			var windowHalfY = window.innerHeight / 2;
 
       var camera_positions = [
-        { x: -200, y: -200 },
-        { x: 100, y: -200 },
-        { x: 300, y: -100 },
-        { x: 0, y: -500 }
+        { x: 0, y: -100, z: 200, name: 'position one' },
+        { x: 200, y: -100, z: 200, name: 'position two' },
+        { x: 0, y: -500, z: -80, name: 'position three' },
+        { x: 300, y: -50, z: 100, name: 'position four'  }
       ]
+
+			var buttons = []
+			var inputs = []
+
+			var info = document.getElementById('info')
+			var radio_buttons = document.getElementById('radio-buttons')
+
+			camera_positions.forEach(function(position, position_idx){
+				var div = document.createElement('span')
+				div.innerHTML = position.name
+				buttons.push(div)
+
+				var input = document.createElement('input')
+				input.setAttribute('type', 'radio')
+				input.setAttribute('name', 'position')
+				input.addEventListener('click', function(){
+					console.log('clicked', position_idx)
+					camera_position_changed = true
+					camera_position_index = position_idx
+					camera_counter = 0
+				})
+				inputs.push(input)
+
+
+				radio_buttons.appendChild(input)
+
+				info.appendChild(div)
+			})
 
       var camera_counter = 0
       var camera_counter_limit = 200
       var camera_position_index = 0
+			var camera_position_changed = true
 
 			init();
 			animate();
-
 
 			function init() {
 
@@ -85,9 +126,9 @@
 				var ambient = new THREE.AmbientLight( 0x999999 );
 				scene.add( ambient );
 
-				// var directionalLight = new THREE.DirectionalLight( 0xffeedd );
-				// directionalLight.position.set( 0, 0, 1 ).normalize();
-				// scene.add( directionalLight );
+				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+				directionalLight.position.set( 0, 1, 1 ).normalize();
+				scene.add( directionalLight );
 
 				// model
 
@@ -135,7 +176,7 @@
 				renderer.setClearColor( 0xffffff, 1 );
 				container.appendChild( renderer.domElement );
 
-				document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				// document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 
 				//
 
@@ -181,10 +222,34 @@
             camera_position_index = 0
           }
           console.log(camera_position_index)
+					camera_position_changed = true
         }
+
+				if(camera_position_changed === true){
+					console.log('update the divs')
+					camera_position_changed = false
+
+					buttons.forEach(function(button,idx){
+						if(idx === camera_position_index){
+							button.setAttribute('style', 'display:block;')
+						} else {
+							button.setAttribute('style', 'display:none;')
+						}
+					})
+					inputs.forEach(function(input, idx){
+						if(idx === camera_position_index){
+							console.log('setting checked',idx)
+							inputs[camera_position_index].checked = true
+						} else {
+							// inputs[camera_position_index].checked = null
+						}
+					})
+
+				}
 
 				camera.position.x += ( camera_positions[camera_position_index].x - camera.position.x ) * .05;
 				camera.position.y += ( - camera_positions[camera_position_index].y - camera.position.y ) * .01;
+				camera.position.z += ( camera_positions[camera_position_index].z - camera.position.z ) * .05;
 
 				camera.lookAt( scene.position );
 

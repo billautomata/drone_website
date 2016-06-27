@@ -25,7 +25,7 @@
 * [ ] 3D website
 * [ ] fly-through video
   * [ ] HQ download
-  * [ ] youtube example
+  * [x] youtube example
 * [ ] 3d model, raw + cleaned up
 * [ ] map of area, large + small image
 
