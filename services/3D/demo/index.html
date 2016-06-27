@@ -21,6 +21,15 @@
 				z-index: 100;
 				display:block;
 			}
+			#loading {
+				color: #000000;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
 			#radio-buttons {
 				color: #000000;
 				position: absolute;
@@ -47,8 +56,9 @@
 	</head>
 
 	<body>
-		<div id="info"></div>
-		<div id='radio-buttons'></div>
+		<div id="loading">loading...</div>
+		<div id="info" style='display: none;'></div>
+		<div id='radio-buttons' style='display: none;'></div>
 
 		<script src="/js/vendor/three.js"></script>
 		<script src="/js/vendor/DDSLoader.js"></script>
@@ -97,9 +107,7 @@
 				})
 				inputs.push(input)
 
-
 				radio_buttons.appendChild(input)
-
 				info.appendChild(div)
 			})
 
@@ -107,6 +115,7 @@
       var camera_counter_limit = 200
       var camera_position_index = 0
 			var camera_position_changed = true
+			var done_loading = false
 
 			init();
 			animate();
@@ -135,6 +144,13 @@
 				var onProgress = function ( xhr ) {
 					if ( xhr.lengthComputable ) {
 						var percentComplete = xhr.loaded / xhr.total * 100;
+						if(percentComplete >= 99){
+							document.getElementById('loading').style.display = 'none'
+							document.getElementById('info').style.display = 'block'
+							document.getElementById('radio-buttons').style.display = 'block'
+							done_loading = true
+						}
+						document.getElementById('loading').innerHTML =  Math.round(percentComplete, 2) + '% downloaded'
 						console.log( Math.round(percentComplete, 2) + '% downloaded' );
 					}
 				};
@@ -214,7 +230,9 @@
 
 			function render() {
 
-        camera_counter += 1
+				if(done_loading){
+					camera_counter += 1
+				}
         if(camera_counter > camera_counter_limit){
           camera_counter = 0
           camera_position_index += 1
