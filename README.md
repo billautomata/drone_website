@@ -1,6 +1,7 @@
 # todo
 
 * [ ] favicon
+
 ## demo websites for each section
   * [ ] services
     * [ ] photos
@@ -19,9 +20,12 @@
     * [ ] 2 minutes of edited video
     * [ ] raw photos + videos
 
+## social media metadata
+
 
 ## interactive 3d website
   * [ ] labels and 3d text in the demo website
+  * [x] labels and 3d text in flythrough video
 
 * [x] large image map
 * [x] 3d website boilerplate
