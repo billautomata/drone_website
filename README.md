@@ -3,29 +3,41 @@
 * [ ] favicon
 
 ## demo websites for each section
-  * [ ] services
-    * [ ] photos
-      * [ ] index.html
-        * [x] header, button,
-        * [x] retouching
-        * [x] high quality formats
-        * [ ] youtube links
-    * [x] 3D
-      * [x] index.html
+* [ ] services
+  * [ ] photos
+    * [ ] index.html
+      * [x] header, button,
+      * [x] retouching
+      * [x] high quality formats
+      * [ ] youtube links
+  * [x] 3D
+    * [x] index.html
 
 
 ## example sections
-  * [ ] photo video
-    * [ ] 10 edited photos
-    * [ ] 2 minutes of edited video
-    * [ ] raw photos + videos
+### photo / video
+* [ ] 10 edited photos
+* [ ] 2 minutes of edited video
+  * [ ] demonstrate each entry in people and things
+* [ ] raw photos + videos
 
-## social media metadata
+### 3D / mapping
+* [ ] 3D website
+* [ ] fly-through video
+  * [ ] HQ download
+  * [ ] youtube example
+* [ ] 3d model, raw + cleaned up
+* [ ] map of area, large + small image
+
+## social media meta-data
 
 
-## interactive 3d website
-  * [ ] labels and 3d text in the demo website
-  * [x] labels and 3d text in flythrough video
+## 3d website
+* [ ] interactive
+* [ ] labels and 3d text in the demo website
+
+## video
+* [x] labels and 3d text in flythrough video
 
 * [x] large image map
 * [x] 3d website boilerplate
