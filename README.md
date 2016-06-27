@@ -33,7 +33,7 @@
 
 
 ## 3d website
-* [ ] interactive
+* [x] interactive
 * [ ] labels and 3d text in the demo website
 
 ## video
