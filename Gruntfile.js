@@ -44,7 +44,7 @@ module.exports = function (grunt) {
     },
     watch: {
       everything: {
-        files: ['./*.html','./src/*.js', './css/*.css', './services/**/*.html' ],
+        files: ['./*.html','./src/*.js', './css/*.css', './**/*.html', './**/**/*.html' ],
         tasks: ['standard:main', 'browserify'],
         options: {
           livereload: {
