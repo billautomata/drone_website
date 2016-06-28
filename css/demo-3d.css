@@ -1,0 +1,47 @@
+body {
+  background-color: #fff;
+  color: #000000;
+  margin: 0px;
+  overflow: hidden;
+}
+#info {
+  color: #000000;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
+  display:block;
+  text-shadow: 0px 0px 4px white;
+}
+#loading {
+  color: #000000;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
+  display:block;
+}
+#radio-buttons {
+  color: #000000;
+  position: absolute;
+  top: 40px;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
+  display:block;
+}
+#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+canvas {
+  opacity: 1.0;
+  background: white;
+}
+span {
+  font-size: 20px;
+  padding: 4px;
+}
+input {
+  width: 20px;
+  height: 20px;
+}
