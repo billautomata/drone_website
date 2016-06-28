@@ -95,5 +95,8 @@ div#services {
    .three-dee-demo-frame {
      display: none;
    }
+   #demo-3d-controls {
+     display: none;
+   }
 
 }

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>building demo</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<link rel="stylesheet" href="/css/main.css">
+		<style>
+			body {
+				background-color: #fff;
+				color: #000000;
+				margin: 0px;
+				overflow: hidden;
+			}
+			#info {
+				color: #000000;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+			#loading {
+				color: #000000;
+				position: absolute;
+				top: 10px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+			#radio-buttons {
+				color: #000000;
+				position: absolute;
+				top: 40px;
+				width: 100%;
+				text-align: center;
+				z-index: 100;
+				display:block;
+			}
+			#info a, .button { color: #f00; font-weight: bold; text-decoration: underline; cursor: pointer }
+			canvas {
+				opacity: 1.0;
+				background: white;
+			}
+			span {
+				font-size: 20px;
+				padding: 4px;
+			}
+			input {
+				width: 20px;
+				height: 20px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="loading">loading...</div>
+		<div id="info" style='display: none;'></div>
+		<div id='radio-buttons' style='display: none;'></div>
+
+		<script src="/js/vendor/three.js"></script>
+		<script src="/js/vendor/DDSLoader.js"></script>
+		<script src="/js/vendor/MTLLoader.js"></script>
+		<script src="/js/vendor/OBJLoader.js"></script>
+		<script src="/js/vendor/Detector.js"></script>
+		<script src="/js/vendor/stats.min.js"></script>
+
+		<script>
+
+			var container, stats;
+
+			var camera, scene, renderer;
+
+			var mouseX = 0, mouseY = 0;
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+      var camera_positions = [
+				{ x: 10, y: -300, z: -80, name: 'square miles of view' },
+				{ x: 200, y: -100, z: 100, name: 'from all angles'  },
+        { x: -50, y: -50, z: 80, name: 'highlight areas' },
+        { x: 1, y: -70, z: -10, name: 'document changes' },
+      ]
+
+			var buttons = []
+			var inputs = []
+
+			var info = document.getElementById('info')
+			var radio_buttons = document.getElementById('radio-buttons')
+
+			camera_positions.forEach(function(position, position_idx){
+				var div = document.createElement('span')
+				div.innerHTML = position.name
+				buttons.push(div)
+
+				var input = document.createElement('input')
+				input.setAttribute('type', 'radio')
+				input.setAttribute('name', 'position')
+				input.addEventListener('click', function(){
+					console.log('clicked', position_idx)
+					camera_position_changed = true
+					camera_position_index = position_idx
+					camera_counter = 0
+				})
+				inputs.push(input)
+
+				radio_buttons.appendChild(input)
+				info.appendChild(div)
+			})
+
+      var camera_counter = 0
+      var camera_counter_limit = 200
+      var camera_position_index = 0
+			var camera_position_changed = true
+			var done_loading = false
+
+			init();
+			animate();
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera.position.z = 150;
+
+				// scene
+
+				scene = new THREE.Scene();
+
+				var ambient = new THREE.AmbientLight( 0x999999 );
+				scene.add( ambient );
+
+				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+				directionalLight.position.set( 0, 1, 1 ).normalize();
+				scene.add( directionalLight );
+
+				// model
+
+				var onProgress = function ( xhr ) {
+					if ( xhr.lengthComputable ) {
+						var percentComplete = xhr.loaded / xhr.total * 100;
+						if(percentComplete >= 99){
+							document.getElementById('loading').style.display = 'none'
+							document.getElementById('info').style.display = 'block'
+							document.getElementById('radio-buttons').style.display = 'block'
+							done_loading = true
+						}
+						document.getElementById('loading').innerHTML =  Math.round(percentComplete, 2) + '% downloaded'
+						console.log( Math.round(percentComplete, 2) + '% downloaded' );
+					}
+				};
+
+				var onError = function ( xhr ) { };
+
+				THREE.Loader.Handlers.add( /\.dds$/i, new THREE.DDSLoader() );
+
+				var mtlLoader = new THREE.MTLLoader();
+				mtlLoader.setPath( '/obj/pir_reduced/' );
+				mtlLoader.load( 'pir_reduced.mtl', function( materials ) {
+
+					materials.preload();
+
+					var objLoader = new THREE.OBJLoader();
+					objLoader.setMaterials( materials );
+					objLoader.setPath( '/obj/pir_reduced/' );
+					objLoader.load( 'pir_reduced.obj', function ( object ) {
+
+						// object.position.y = - 95;
+
+						var scale = 1.5
+						object.scale.x = scale
+						object.scale.y = scale
+						object.scale.z = scale
+
+						object.rotation.y = 3.0
+						scene.add( object );
+
+					}, onProgress, onError );
+
+				});
+
+				//
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setPixelRatio( window.devicePixelRatio );
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				renderer.setClearColor( 0xffffff, 1 );
+				container.appendChild( renderer.domElement );
+
+				// document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				// mouseX = ( event.clientX - windowHalfX ) / 2;
+				// mouseY = ( event.clientY - windowHalfY ) / 2;
+
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+
+			}
+
+			function render() {
+
+				if(done_loading){
+					camera_counter += 1
+				}
+        if(camera_counter > camera_counter_limit){
+          camera_counter = 0
+          camera_position_index += 1
+          if(camera_position_index >= camera_positions.length){
+            camera_position_index = 0
+          }
+          console.log(camera_position_index)
+					camera_position_changed = true
+        }
+
+				if(camera_position_changed === true){
+					console.log('update the divs')
+					camera_position_changed = false
+
+					buttons.forEach(function(button,idx){
+						if(idx === camera_position_index){
+							button.setAttribute('style', 'display:block;')
+						} else {
+							button.setAttribute('style', 'display:none;')
+						}
+					})
+					inputs.forEach(function(input, idx){
+						if(idx === camera_position_index){
+							console.log('setting checked',idx)
+							inputs[camera_position_index].checked = true
+						} else {
+							// inputs[camera_position_index].checked = null
+						}
+					})
+
+				}
+
+				camera.position.x += ( camera_positions[camera_position_index].x - camera.position.x ) * .05;
+				camera.position.y += ( - camera_positions[camera_position_index].y - camera.position.y ) * .01;
+				camera.position.z += ( camera_positions[camera_position_index].z - camera.position.z ) * .05;
+
+				camera.lookAt( scene.position );
+
+				renderer.render( scene, camera );
+
+			}
+
+		</script>
+
+	</body>
+</html>
